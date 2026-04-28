@@ -1,0 +1,73 @@
+---
+interface Props { color?: string; }
+const { color = '#F5F0E6' } = Astro.props;
+
+const numWaves   = 24;
+const svgW       = 280;
+const wavelength = 80;
+const xStart     = -wavelength;       // extra wavelength left for seamless loop
+const xEnd       = svgW + wavelength; // extra wavelength right
+const waveSteps  = 100;
+const startY     = 10;
+
+// Variable spacing: inner waves 8px apart, outer waves ~20px apart
+// cumulative centerY so larger-amplitude outer waves have breathing room
+const centerYs: number[] = [startY];
+for (let i = 1; i < numWaves; i++) {
+  const spacing = 8 + (i / numWaves) * 12;
+  centerYs.push(centerYs[i - 1] + spacing);
+}
+
+// viewBox height: last centerY + max amplitude + bottom margin
+const maxAmp  = 48;
+const svgH    = Math.ceil(centerYs[numWaves - 1] + maxAmp + 14);
+
+function wavePath(centerY: number, amplitude: number): string {
+  const pts = Array.from({ length: waveSteps }, (_, j) => {
+    const x = xStart + (j / (waveSteps - 1)) * (xEnd - xStart);
+    const y = centerY + amplitude * Math.sin((x / wavelength) * 2 * Math.PI);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  });
+  return `M ${pts.join(' L ')}`;
+}
+
+// maxDelay: spread just under one full cycle so inner ≠ outer position
+const maxDelay = 3 * (numWaves - 1) / numWaves; // ~2.875s
+
+const waves = Array.from({ length: numWaves }, (_, i) => {
+  const t         = i / (numWaves - 1);
+  const amplitude = 4 + Math.pow(t, 2) * 44;      // 4px → 48px exponential
+  const opacity   = +(1 - t * 0.85).toFixed(2);   // 1.0 → 0.15
+  // Inner waves lead (most-negative delay = furthest into cycle)
+  const delayVal  = -(maxDelay * (numWaves - 1 - i) / (numWaves - 1));
+  return {
+    d:       wavePath(centerYs[i], amplitude),
+    opacity,
+    delay:   delayVal.toFixed(3),
+  };
+});
+---
+
+<svg
+  viewBox={`0 0 ${svgW} ${svgH}`}
+  width="100%"
+  overflow="hidden"
+  fill="none"
+  stroke={color}
+  stroke-width="1"
+  stroke-linecap="round"
+  role="img"
+  aria-label="Wave expansion — growing waves representing organizational scale"
+  class="illus-wave w-full"
+>
+  <g class="illus-group">
+    {waves.map(w => (
+      <path
+        d={w.d}
+        opacity={w.opacity}
+        class="wave-path"
+        style={`animation-delay: ${w.delay}s`}
+      />
+    ))}
+  </g>
+</svg>

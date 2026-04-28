@@ -1,0 +1,75 @@
+---
+const points = [
+  {
+    num:     '01',
+    heading: 'The unit of analysis is the deployment, not the model.',
+    body:    'What separates AI investments that compound from those that stall is never the model choice. It\'s the deployment decision: which workflow it integrates with, what judgment it augments, what feedback loop it creates.',
+  },
+  {
+    num:     '02',
+    heading: 'Most enterprise AI fails before it reaches the user.',
+    body:    'Strategy documents, proof-of-concepts, and pilots are not AI deployment. They\'re AI theater. Real deployment means production systems that handle volume, edge cases, and organizational resistance — and keep working when the novelty wears off.',
+  },
+  {
+    num:     '03',
+    heading: 'The evaluation threshold problem is the most underreported question in enterprise AI.',
+    body:    'Every enterprise AI project eventually hits the same wall: how good is good enough? The absence of rigorous evaluation frameworks isn\'t a research problem. It\'s a leadership problem — and it\'s causing billions in misallocated investment.',
+  },
+  {
+    num:     '04',
+    heading: 'AI literacy is a leadership responsibility, not an HR initiative.',
+    body:    'When AI capability outpaces organizational understanding, you don\'t get fast adoption. You get fear, workarounds, and poor decisions made confidently. Closing that gap deliberately is the AI leader\'s actual job.',
+  },
+  {
+    num:     '05',
+    heading: 'Internal AI leadership requires a different playbook than AI-native leadership.',
+    body:    'The strategies that work at AI-first companies create technical and organizational debt when applied inside traditional enterprise. Different constraints, different stakeholders, different definition of done. The playbook transfer problem is real and almost never discussed.',
+  },
+  {
+    num:     '06',
+    heading: 'Strategy without execution infrastructure is a liability.',
+    body:    'Strong AI POV without deployment infrastructure doesn\'t create competitive advantage. It creates technical debt, failed pilots, and organizational cynicism. The execution layer isn\'t implementation detail. It is the strategy.',
+  },
+];
+---
+
+<section id="manifesto" aria-labelledby="manifesto-heading" class="border-t border-rule py-24 md:py-32">
+
+  <header class="mb-14 fade-up">
+    <p class="font-mono text-[10px] tracking-[0.18em] text-ink-3 mb-3">// 04 — MANIFESTO</p>
+    <h2
+      id="manifesto-heading"
+      class="font-serif font-light text-[clamp(1.6rem,3.2vw,2.6rem)] text-ink leading-snug"
+      style="font-variation-settings: 'opsz' 72"
+    >
+      What I believe about AI in enterprise.
+    </h2>
+  </header>
+
+  <div class="divide-y divide-rule">
+    {points.map((p, i) => (
+      <div
+        class="group py-10 md:py-12 grid md:grid-cols-[120px_1fr] gap-6 md:gap-12 items-start fade-up"
+        style={`transition-delay: ${i * 0.06}s`}
+      >
+        <!-- Number -->
+        <div
+          class="font-serif font-bold text-[3.5rem] md:text-[5rem] leading-none text-rule-2 group-hover:text-oxblood transition-colors duration-300 select-none"
+          style="font-variation-settings: 'opsz' 144"
+          aria-hidden="true"
+        >
+          {p.num}
+        </div>
+
+        <!-- Content -->
+        <div class="pt-1 md:pt-3">
+          <h3 class="font-serif font-light text-xl md:text-2xl text-ink leading-snug mb-4 group-hover:text-ink transition-colors">
+            {p.heading}
+          </h3>
+          <p class="text-sm text-ink-2 leading-relaxed max-w-2xl">{p.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+</section>

@@ -1,0 +1,26 @@
+---
+import DeploymentPanels from './DeploymentPanels';
+---
+
+<section id="deployment" aria-labelledby="deployment-heading" class="border-t border-rule">
+
+  <!-- Section header — constrained to max-width -->
+  <div class="max-w-5xl mx-auto px-8 md:px-14 pt-20 md:pt-28 pb-14 md:pb-20">
+    <p class="font-mono text-[10px] tracking-[0.18em] text-ink-3 mb-3 fade-up">// 05 — DEPLOYMENT</p>
+    <h2
+      id="deployment-heading"
+      class="font-serif font-light text-[clamp(1.6rem,3.2vw,2.6rem)] text-ink leading-snug max-w-2xl fade-up delay-1"
+      style="font-variation-settings: 'opsz' 72"
+    >
+      How AI actually gets deployed.
+    </h2>
+    <p class="text-sm text-ink-3 mt-3 max-w-xl leading-relaxed fade-up delay-2">
+      Four phases. Each one harder than it looks. The work that separates AI investments
+      that compound from those that stall.
+    </p>
+  </div>
+
+  <!-- Four panels — React island for hover expansion -->
+  <DeploymentPanels client:load />
+
+</section>

@@ -1,0 +1,62 @@
+---
+const links = [
+  { label: 'LinkedIn',          href: 'https://www.linkedin.com/in/kevinfrancisclark/', ariaLabel: 'Kevin Clark on LinkedIn', newTab: true },
+  { label: 'GitHub',            href: 'https://github.com/9to5killer',                  ariaLabel: 'Kevin Clark on GitHub',   newTab: true },
+  { label: 'kc@kevinclark.ai', href: 'mailto:kc@kevinclark.ai',                        ariaLabel: 'Send email to Kevin Clark' },
+];
+---
+
+<section id="connect" aria-labelledby="connect-heading" class="border-t border-rule py-24 md:py-32">
+
+  <header class="mb-12 fade-up">
+    <p class="font-mono text-[10px] tracking-[0.18em] text-ink-3 mb-3">// 08 — CONNECT</p>
+    <h2
+      id="connect-heading"
+      class="font-serif font-light text-[clamp(2.2rem,5.5vw,5rem)] text-ink leading-tight max-w-2xl"
+      style="font-variation-settings: 'opsz' 96"
+    >
+      Let's work together.
+    </h2>
+  </header>
+
+  <!-- Doubled CTA -->
+  <div class="flex flex-wrap items-center gap-4 mb-16 fade-up delay-1">
+    <a
+      href="mailto:kc@kevinclark.ai"
+      class="font-mono text-[10px] tracking-[0.18em] uppercase border border-ink px-7 py-3 text-ink hover:bg-ink hover:text-parchment transition-colors duration-200"
+    >
+      Get in touch
+    </a>
+    <a
+      href="#projects"
+      class="font-mono text-[10px] tracking-[0.18em] uppercase border border-rule px-7 py-3 text-ink-3 hover:border-ink-2 hover:text-ink-2 transition-colors duration-200"
+    >
+      View my work
+    </a>
+  </div>
+
+  <!-- Editorial links -->
+  <div class="divide-y divide-rule fade-up delay-2">
+    {links.map((link) => (
+      <a
+        href={link.href}
+        aria-label={link.ariaLabel}
+        target={link.newTab ? '_blank' : undefined}
+        rel={link.newTab ? 'noopener noreferrer' : undefined}
+        class="flex items-center justify-between py-7 md:py-8 group focus-visible:outline-2 focus-visible:outline-oxblood focus-visible:outline-offset-4"
+      >
+        <span
+          class="font-serif font-light text-[clamp(1.5rem,4.5vw,3.5rem)] text-ink leading-none group-hover:text-ink-2 transition-colors duration-200 link-draw"
+          style="font-variation-settings: 'opsz' 72"
+        >
+          {link.label}
+        </span>
+        <span
+          class="text-rule-2 text-lg group-hover:text-ink-2 transition-colors duration-200 shrink-0 ml-4"
+          aria-hidden="true"
+        >↗</span>
+      </a>
+    ))}
+  </div>
+
+</section>

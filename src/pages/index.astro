@@ -1,0 +1,169 @@
+---
+import Layout      from '../layouts/Layout.astro';
+import Navigation  from '../components/ui/Navigation';
+import ParticleField from '../components/hero/ParticleField';
+import CurtainReveal from '../components/hero/CurtainReveal';
+import About       from '../components/sections/About.astro';
+import Experience  from '../components/sections/Experience.astro';
+import Domains     from '../components/sections/Domains.astro';
+import Manifesto   from '../components/sections/Manifesto.astro';
+import Deployment  from '../components/sections/Deployment.astro';
+import Projects    from '../components/sections/Projects.astro';
+import Writing     from '../components/sections/Writing.astro';
+import Connect     from '../components/sections/Connect.astro';
+
+const year = new Date().getFullYear();
+---
+
+<Layout darkHero={true}>
+
+  <!-- Sticky navigation (handles dark/light via isHero state) -->
+  <Navigation client:load />
+
+  <!-- ─── Dark hero ─────────────────────────────────────────────────── -->
+  <section
+    id="hero"
+    class="relative w-full flex items-center"
+    style="height: 100vh; z-index: 10; background-color: var(--color-bg-dark);"
+    aria-label="Introduction"
+  >
+
+    <!-- Two-column layout -->
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-8 md:px-14">
+      <div class="flex flex-col md:flex-row md:items-center">
+
+        <!-- Left column — text (55%) -->
+        <div class="w-full md:w-[55%] flex flex-col py-28 md:py-0 md:pr-16">
+
+          <div class="overflow-hidden mb-8">
+            <h1
+              class="hero-name font-sans font-black leading-none tracking-tight"
+              style="font-size: clamp(4rem,9vw,9rem); line-height: 0.92; letter-spacing: -0.03em; color: var(--color-text-hero);"
+            >
+              Kevin Clark
+            </h1>
+          </div>
+
+          <p
+            class="hero-tagline font-serif italic mb-5"
+            style="font-size: clamp(1.25rem,1.8vw,1.75rem); color: var(--color-text-hero-2); font-variation-settings: 'opsz' 48; line-height: 1.35;"
+          >
+            Most enterprise AI fails at deployment,<br />
+            not strategy. I work on the deployment.
+          </p>
+
+          <p
+            class="hero-sub text-sm leading-relaxed max-w-sm"
+            style="color: var(--color-text-hero-3)"
+          >
+            Building internal tools and agents that make knowledge workers measurably
+            better at the work that matters.
+          </p>
+
+        </div>
+
+        <!-- Right column — particle field (45%), desktop only -->
+        <div
+          class="hidden md:block md:w-[45%]"
+          style="height: 100vh;"
+          aria-hidden="true"
+        >
+          <ParticleField client:load />
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <CurtainReveal client:load />
+
+  <!-- ─── Cream content ──────────────────────────────────────── -->
+  <main id="main-content">
+
+    <!-- ─── Constrained: About → Manifesto ───────────────────── -->
+    <div class="max-w-5xl mx-auto px-8 md:px-14">
+
+      <About />
+      <Experience />
+      <Domains />
+      <Manifesto />
+
+    </div>
+
+    <!-- ─── Full-bleed: Deployment panels ────────────────────── -->
+    <Deployment />
+
+    <!-- ─── Constrained: Projects → Footer ──────────────────── -->
+    <div class="max-w-5xl mx-auto px-8 md:px-14">
+
+      <Projects />
+      <Writing />
+      <Connect />
+
+      <!-- ─── Footer ─────────────────────────────────────────── -->
+      <footer class="border-t border-rule py-8 pb-16">
+        <div class="grid grid-cols-2 md:grid-cols-3 items-center gap-4">
+
+          <div class="flex items-center gap-2 font-mono text-[10px] tracking-[0.14em] text-ink-3">
+            <span>UTC</span>
+            <span id="utc-clock">--:--:--</span>
+          </div>
+
+          <p class="font-mono text-[10px] tracking-[0.14em] text-ink-3 text-center hidden md:block">
+            KEVINCLARK.AI
+          </p>
+
+          <p class="font-mono text-[10px] tracking-[0.14em] text-ink-3 text-right">
+            © {year} Kevin Clark
+          </p>
+
+        </div>
+      </footer>
+
+    </div>
+
+  </main>
+
+</Layout>
+
+<script is:inline>
+  (function () {
+    var hero = document.getElementById('hero');
+    if (!hero) return;
+
+    var darkBg  = [10, 14, 26];   // #0A0E1A
+    var creamBg = [250, 250, 247]; // #FAFAF7
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function onScroll() {
+      var vh = window.innerHeight;
+      var t  = Math.min(Math.max(window.scrollY / vh, 0), 1);
+
+      // Hero fades out over first 75% of its height
+      var fadeT  = Math.min(window.scrollY / (vh * 0.75), 1);
+      hero.style.opacity = String(1 - fadeT);
+
+      // Body background interpolates dark → cream over full hero scroll
+      var r = Math.round(lerp(darkBg[0], creamBg[0], t));
+      var g = Math.round(lerp(darkBg[1], creamBg[1], t));
+      var b = Math.round(lerp(darkBg[2], creamBg[2], t));
+      document.body.style.backgroundColor = 'rgb(' + r + ',' + g + ',' + b + ')';
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>
+
+<script>
+  function tickClock() {
+    const el = document.getElementById('utc-clock');
+    if (!el) return;
+    const now = new Date();
+    const pad = (n: number) => String(n).padStart(2, '0');
+    el.textContent = `${pad(now.getUTCHours())}:${pad(now.getUTCMinutes())}:${pad(now.getUTCSeconds())}`;
+  }
+  tickClock();
+  setInterval(tickClock, 1000);
+</script>

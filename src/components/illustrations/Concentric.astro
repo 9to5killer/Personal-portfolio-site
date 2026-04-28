@@ -1,0 +1,56 @@
+---
+interface Props {
+  color?: string;
+}
+const { color = '#F5F0E6' } = Astro.props;
+
+const svgW    = 260;
+const svgH    = 340;
+const cx      = svgW;          // center on right edge
+const cy      = svgH / 2;
+const numArcs = 24;
+const startR  = 18;
+const endR    = svgW - 4;      // 256
+
+function arcPath(r: number): string {
+  const startDeg = 120;
+  const endDeg   = 240;
+  const steps    = 24;
+  const pts = Array.from({ length: steps + 1 }, (_, j) => {
+    const angle = (startDeg + (endDeg - startDeg) * j / steps) * Math.PI / 180;
+    return `${(cx + r * Math.cos(angle)).toFixed(1)},${(cy + r * Math.sin(angle)).toFixed(1)}`;
+  });
+  return `M ${pts.join(' L ')}`;
+}
+
+const arcs = Array.from({ length: numArcs }, (_, i) => {
+  const r       = startR + (endR - startR) * i / (numArcs - 1);
+  const isMajor = i % 4 === 0;
+  return {
+    d:           arcPath(r),
+    opacity:     isMajor ? 1 : 0.3,
+    strokeWidth: isMajor ? 1.5 : 1,
+  };
+});
+---
+
+<svg
+  viewBox={`0 0 ${svgW} ${svgH}`}
+  width="100%"
+  fill="none"
+  stroke={color}
+  role="img"
+  aria-label="Architectural concentric arcs"
+  class="illus-concentric w-full"
+>
+  <g class="illus-group" style={`transform-origin: ${cx}px ${cy}px`}>
+    {arcs.map(a => (
+      <path
+        d={a.d}
+        stroke-width={a.strokeWidth}
+        opacity={a.opacity}
+        stroke-linecap="round"
+      />
+    ))}
+  </g>
+</svg>

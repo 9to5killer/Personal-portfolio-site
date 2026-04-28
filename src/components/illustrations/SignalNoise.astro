@@ -1,0 +1,106 @@
+---
+interface Props { color?: string; }
+const { color = '#F5F0E6' } = Astro.props;
+
+const COLS = 36;
+const ROWS = 48;
+const W    = 254;
+const H    = 338;
+---
+
+<!--
+  Canvas-rendered dot field. JS drives per-frame noise with rAF;
+  static draw at t=0 happens synchronously on init.
+-->
+<div class="illus-signal-noise flex justify-center items-center w-full">
+  <canvas
+    data-sn-color={color}
+    data-sn-cols={String(COLS)}
+    data-sn-rows={String(ROWS)}
+    width={W}
+    height={H}
+    style="display:block; width:100%; height:auto; max-width:100%;"
+    role="img"
+    aria-label="Signal from noise — organic dot field"
+  ></canvas>
+</div>
+
+<script is:inline>
+(function () {
+  function initSN() {
+    document.querySelectorAll('.illus-signal-noise canvas').forEach(function (canvas) {
+      var ctx     = canvas.getContext('2d');
+      var dotColor = canvas.dataset.snColor || '#F5F0E6';
+      var COLS    = parseInt(canvas.dataset.snCols, 10);
+      var ROWS    = parseInt(canvas.dataset.snRows, 10);
+      var logW    = canvas.width;
+      var logH    = canvas.height;
+      var spacing = 7;
+      var r       = 1.5;
+      var dpr     = Math.min(window.devicePixelRatio || 1, 2);
+
+      canvas.width  = logW * dpr;
+      canvas.height = logH * dpr;
+      ctx.scale(dpr, dpr);
+
+      function noise(col, row, t) {
+        var v1 = Math.sin(col * 0.15 + row * 0.10 + t)              * 0.5;
+        var v2 = Math.sin(col * 0.08 - row * 0.12 + 2.0 + t * 0.7) * 0.3;
+        var v3 = Math.sin(col * 0.20 + row * 0.05 - 1.5 + t * 1.3) * 0.2;
+        var n  = (v1 + v2 + v3 + 1) / 2;
+        var op = Math.pow(n, 2.5);
+        if (op < 0.05) op = 0.05;
+        if (op > 0.95) op = 1.0;
+        return op;
+      }
+
+      function draw(t) {
+        ctx.clearRect(0, 0, logW, logH);
+        ctx.fillStyle = dotColor;
+        for (var row = 0; row < ROWS; row++) {
+          for (var col = 0; col < COLS; col++) {
+            var cx = col * spacing + r + 1;
+            var cy = row * spacing + r + 1;
+            ctx.globalAlpha = noise(col, row, t);
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+
+      // Initial static render
+      draw(0);
+
+      var rafId      = null;
+      var totalMs    = 0;
+      var lastTs     = null;
+
+      function animate(ts) {
+        if (lastTs !== null) totalMs += (ts - lastTs);
+        lastTs = ts;
+        draw((totalMs / 8000) * Math.PI * 2);
+        rafId = requestAnimationFrame(animate);
+      }
+
+      var panel = canvas.closest('.deploy-panel');
+      if (panel) {
+        panel.addEventListener('mouseenter', function () {
+          lastTs = null;
+          if (!rafId) rafId = requestAnimationFrame(animate);
+        });
+        panel.addEventListener('mouseleave', function () {
+          if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+          lastTs = null;
+        });
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSN);
+  } else {
+    initSN();
+  }
+})();
+</script>

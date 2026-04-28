@@ -1,0 +1,276 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Fraunces", ui-serif, Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
+
+  /* Dark hero tokens */
+  --color-bg-dark:    #0A0E1A;
+  --color-text-hero:  #F5F0E6;
+  --color-text-hero-2: #E8DFC9;
+  --color-text-hero-3: #A8A095;
+
+  /* Semantic color tokens */
+  --color-ink:        #0A0A0A;
+  --color-ink-2:      #525252;
+  --color-ink-3:      #A1A1A1;
+  --color-parchment:  #FAFAF7;
+  --color-parchment-2:#F3F2EF;
+  --color-rule:       #E8E6E1;
+  --color-rule-2:     #D4D1CB;
+  --color-oxblood:    #9A6B1E;
+}
+
+/* ─── Base ──────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-parchment);
+  color: var(--color-ink);
+  font-optical-sizing: auto;
+}
+
+/* ─── Hero animations ────────────────────────────────────── */
+@keyframes heroFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes heroSlideUp {
+  from { transform: translateY(108%); }
+  to   { transform: translateY(0);    }
+}
+@keyframes heroFadeSlide {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+.hero-eyebrow {
+  animation: heroFadeIn 0.4s ease 0.25s both;
+}
+.hero-name {
+  animation: heroSlideUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+  display: block;
+}
+.hero-tagline {
+  animation: heroFadeSlide 0.5s ease 0.95s both;
+}
+.hero-sub {
+  animation: heroFadeSlide 0.45s ease 1.15s both;
+}
+
+/* ─── Section scroll fades ───────────────────────────────── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.fade-up.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+.fade-up.delay-1 { transition-delay: 0.1s; }
+.fade-up.delay-2 { transition-delay: 0.2s; }
+.fade-up.delay-3 { transition-delay: 0.3s; }
+
+/* ─── Link underline draw ────────────────────────────────── */
+.link-draw {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0 1px;
+  background-position: left 100%;
+  background-repeat: no-repeat;
+  transition: background-size 220ms ease-out;
+}
+.link-draw:hover,
+.link-draw:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* ─── Custom cursor ──────────────────────────────────────── */
+@media (hover: hover) {
+  body.cursor-active {
+    cursor: none;
+  }
+  body.cursor-active * {
+    cursor: none !important;
+  }
+}
+
+#cursor-ring {
+  width: 8px;
+  height: 8px;
+  background: #C65D3A;
+  border-radius: 50%;
+  border: 0px solid transparent;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 180ms ease, height 180ms ease, background 180ms ease,
+              border 180ms ease, border-radius 180ms ease;
+  will-change: transform;
+}
+#cursor-ring.is-link {
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: 1.5px solid #C65D3A;
+}
+#cursor-ring.is-text {
+  width: 2px;
+  height: 1.1em;
+  background: #C65D3A;
+  border-radius: 1px;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 4px; }
+::-webkit-scrollbar-track { background: var(--color-parchment); }
+::-webkit-scrollbar-thumb { background: var(--color-rule-2); }
+
+/* ─── Skip link ──────────────────────────────────────────── */
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 1rem;
+  z-index: 10000;
+  background: var(--color-parchment);
+  color: var(--color-ink);
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-family: var(--font-mono);
+  border: 1px solid var(--color-rule-2);
+  transition: top 200ms;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ─── Navigation ─────────────────────────────────────────── */
+.nav-progress {
+  transform-origin: left center;
+}
+
+/* ─── Domain grid ────────────────────────────────────────── */
+.domain-card {
+  transition: border-color 220ms ease, color 220ms ease;
+}
+.domain-card:hover {
+  border-color: var(--color-oxblood) !important;
+}
+.domain-card:hover .domain-num {
+  color: var(--color-oxblood);
+}
+
+/* ─── Project cards ──────────────────────────────────────── */
+.project-card {
+  transition: border-color 200ms ease, transform 200ms ease;
+}
+.project-card:hover {
+  border-color: var(--color-oxblood);
+  transform: scale(1.005);
+}
+
+/* ─── Status dots ────────────────────────────────────────── */
+.status-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  margin-right: 5px;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+  flex-shrink: 0;
+}
+.status-dot-live    { background: #4ADE80; }
+.status-dot-dev     { background: #FB923C; }
+.status-dot-planned { background: var(--color-ink-3); }
+.status-dot-draft   { background: #60A5FA; }
+.status-dot-outlined { background: #A78BFA; }
+
+/* ─── Experience grid dividers ───────────────────────────── */
+@media (min-width: 768px) {
+  .experience-grid > * + * { border-left: 1px solid var(--color-rule); }
+}
+@media (max-width: 767px) {
+  .experience-grid > * + * { border-top: 1px solid var(--color-rule); }
+}
+
+/* ─── Deployment panels ──────────────────────────────────── */
+.deploy-panel {
+  cursor: default;
+  transition: filter 300ms ease;
+}
+.deploy-panel:hover {
+  filter: brightness(1.08);
+}
+
+/* Shared: all illustration groups pause until hover */
+.illus-group {
+  animation-play-state: paused;
+}
+.deploy-panel:hover .illus-group {
+  animation-play-state: running;
+}
+
+/* Signal noise — animation driven by JS rAF, no CSS animation needed */
+
+/* Concentric arcs — slow pulse expand */
+.illus-concentric .illus-group {
+  animation: concentric-pulse 3s ease-in-out infinite;
+}
+@keyframes concentric-pulse {
+  0%, 100% { transform: scale(1);    }
+  50%      { transform: scale(1.05); }
+}
+
+/* Precision radial — slow spin */
+.illus-radial .illus-group {
+  animation: radial-spin 12s linear infinite;
+}
+@keyframes radial-spin {
+  from { transform: rotate(0deg);   }
+  to   { transform: rotate(360deg); }
+}
+
+/* Wave expansion — per-path stagger creates ripple-from-inside-out */
+.wave-path {
+  animation: wave-flow 3s linear infinite;
+  animation-play-state: paused;
+}
+.deploy-panel:hover .wave-path {
+  animation-play-state: running;
+}
+@keyframes wave-flow {
+  from { transform: translateX(0);    }
+  to   { transform: translateX(-80px); }
+}
+
+/* ─── prefers-reduced-motion ─────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  .hero-eyebrow, .hero-tagline, .hero-sub {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .hero-name {
+    animation: none;
+    transform: none;
+  }
+  .fade-up,
+  .fade-up.in-view {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  #cursor-ring { display: none; }
+  .wave-path { animation: none; }
+}

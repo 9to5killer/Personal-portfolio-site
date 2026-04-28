@@ -1,0 +1,80 @@
+---
+const essays = [
+  {
+    num:     '01',
+    title:   'The Last Mile Problem in Enterprise AI',
+    status:  'First draft',
+    preview: 'Why most enterprise AI investments fail not in model selection or integration, but in the final 20% between working prototype and organizational adoption.',
+    tags:    ['Deployment', 'Enterprise'],
+  },
+  {
+    num:     '02',
+    title:   'The Evaluation Gap',
+    status:  'Outlined',
+    preview: 'The absence of rigorous evaluation frameworks is the most underreported problem in enterprise AI deployment — and it\'s causing billions in misallocated investment.',
+    tags:    ['Evaluation', 'Strategy'],
+  },
+  {
+    num:     '03',
+    title:   'Internal vs. AI-Native: Why the Playbooks Don\'t Transfer',
+    status:  'Researching',
+    preview: 'Why strategies that work at AI-first companies create debt when applied inside traditional enterprise — and what actually works instead.',
+    tags:    ['Leadership', 'Enterprise'],
+  },
+];
+---
+
+<section id="writing" aria-labelledby="writing-heading" class="border-t border-rule py-24 md:py-32">
+
+  <header class="mb-14 fade-up">
+    <p class="font-mono text-[10px] tracking-[0.18em] text-ink-3 mb-3">// 07 — WRITING</p>
+    <h2
+      id="writing-heading"
+      class="font-serif font-light text-[clamp(1.6rem,3.2vw,2.6rem)] text-ink leading-tight"
+      style="font-variation-settings: 'opsz' 72"
+    >
+      Long-form essays on AI deployment.
+    </h2>
+    <p class="text-sm text-ink-3 mt-3 max-w-lg leading-relaxed">
+      Observations, frameworks, and arguments about AI in enterprise.
+      Follow on <a href="#" class="link-draw text-ink-2">LinkedIn</a> for shorter takes while essays are in progress.
+    </p>
+  </header>
+
+  <!-- List with hover-reveal metadata -->
+  <div class="divide-y divide-rule fade-up delay-1">
+    {essays.map((e, i) => (
+      <div
+        class="group py-8 grid md:grid-cols-[1fr_auto] gap-6 items-start cursor-default"
+        style={`transition-delay: ${i * 0.07}s`}
+      >
+        <div>
+          <div class="flex items-center gap-3 mb-3">
+            <span class="font-mono text-[10px] tracking-[0.14em] text-ink-3">Essay {e.num}</span>
+            <!-- Status badge — always visible but muted, brightens on hover -->
+            <span class="font-mono text-[10px] tracking-[0.14em] text-ink-3 group-hover:text-oxblood transition-colors duration-200">
+              {e.status}
+            </span>
+          </div>
+          <h3 class="font-serif font-light text-xl md:text-2xl text-ink leading-snug mb-3 group-hover:text-ink transition-colors">
+            {e.title}
+          </h3>
+          <!-- Preview — hidden at rest, revealed on hover -->
+          <p class="text-sm text-ink-2 leading-relaxed max-w-xl overflow-hidden transition-all duration-300 ease-out max-h-0 opacity-0 group-hover:max-h-20 group-hover:opacity-100">
+            {e.preview}
+          </p>
+        </div>
+
+        <!-- Tags — shift in on hover -->
+        <div class="flex flex-col gap-2 items-end opacity-0 group-hover:opacity-100 transition-opacity duration-200 mt-7">
+          {e.tags.map(tag => (
+            <span class="font-mono text-[10px] tracking-[0.1em] border border-rule px-2 py-1 text-ink-3 whitespace-nowrap">
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+
+</section>

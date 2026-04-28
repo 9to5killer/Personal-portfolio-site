@@ -1,0 +1,136 @@
+---
+// Ambient dot field — vignette-weighted SVG circles with slow drift
+// Same is:inline pattern as SignalNoise.astro; no React island, no hydration timing.
+---
+
+<div
+  class="about-dot-field"
+  aria-hidden="true"
+  style="position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;"
+>
+  <svg class="about-dot-svg" style="position:absolute;inset:0;width:100%;height:100%;"></svg>
+</div>
+
+<script is:inline>
+(function () {
+  var NS    = 'http://www.w3.org/2000/svg';
+  var COLOR = '#8B8175';
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function targetCount(w) {
+    if (w < 768)  return 60;
+    if (w < 1024) return 120;
+    return 200;
+  }
+
+  function init() {
+    var containers = document.querySelectorAll('.about-dot-field');
+    containers.forEach(function (container) {
+      var svg = container.querySelector('.about-dot-svg');
+      if (!svg) return;
+
+      var dots    = [];
+      var rafId   = null;
+      var lastTs  = null;
+      var paused  = false;
+
+      // ── Build dots with vignette probability ────────────────
+      function build() {
+        var W = container.clientWidth;
+        var H = container.clientHeight;
+        if (!W || !H) return;
+
+        while (svg.firstChild) svg.removeChild(svg.firstChild);
+        dots = [];
+
+        var target     = targetCount(W);
+        var candidates = target * 4;
+
+        for (var i = 0; i < candidates; i++) {
+          var x  = Math.random() * W;
+          var y  = Math.random() * H;
+          var dx = Math.abs(x / W - 0.5) * 2;   // 0 at center, 1 at edge
+          var dy = Math.abs(y / H - 0.5) * 2;
+          var dist = Math.max(dx, dy);            // Chebyshev distance from center
+
+          // Probability of placement increases toward edges
+          if (Math.random() >= dist * 0.8) continue;
+
+          var r   = 1 + Math.random() * 1.5;             // 1–2.5 px
+          var op  = 0.3 + Math.random() * 0.4;          // 0.30–0.70
+          var spd = 0.2;                                  // max px/s
+          var vx  = (Math.random() - 0.5) * 2 * spd;
+          var vy  = (Math.random() - 0.5) * 2 * spd;
+
+          var circle = document.createElementNS(NS, 'circle');
+          circle.setAttribute('cx',      x.toFixed(1));
+          circle.setAttribute('cy',      y.toFixed(1));
+          circle.setAttribute('r',       r.toFixed(2));
+          circle.setAttribute('fill',    COLOR);
+          circle.setAttribute('opacity', op.toFixed(3));
+          svg.appendChild(circle);
+
+          dots.push({ x: x, y: y, vx: vx, vy: vy, el: circle });
+        }
+      }
+
+      // ── Animation tick ───────────────────────────────────────
+      function tick(ts) {
+        rafId = requestAnimationFrame(tick);
+        if (paused) return;
+
+        var dt = lastTs !== null ? (ts - lastTs) / 1000 : 0;
+        lastTs = ts;
+
+        var W = container.clientWidth;
+        var H = container.clientHeight;
+        if (!W || !H) return;
+
+        for (var i = 0; i < dots.length; i++) {
+          var d = dots[i];
+          d.x += d.vx * dt;
+          d.y += d.vy * dt;
+          // Toroidal wrap
+          if (d.x < 0) d.x += W; else if (d.x > W) d.x -= W;
+          if (d.y < 0) d.y += H; else if (d.y > H) d.y -= H;
+          d.el.setAttribute('cx', d.x.toFixed(1));
+          d.el.setAttribute('cy', d.y.toFixed(1));
+        }
+      }
+
+      // Wait one rAF so layout is settled, then build + start
+      requestAnimationFrame(function () {
+        build();
+        if (!prefersReduced && dots.length > 0) {
+          rafId = requestAnimationFrame(tick);
+        }
+      });
+
+      // ── Pause when section off-screen ────────────────────────
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { paused = !e.isIntersecting; });
+      }, { threshold: 0.01 });
+      io.observe(container);
+
+      // ── Pause when tab hidden ────────────────────────────────
+      document.addEventListener('visibilitychange', function () {
+        paused = document.hidden;
+      });
+
+      // ── Rebuild on resize ────────────────────────────────────
+      var resizeTimer = null;
+      var ro = new ResizeObserver(function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () { build(); }, 250);
+      });
+      ro.observe(container);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>

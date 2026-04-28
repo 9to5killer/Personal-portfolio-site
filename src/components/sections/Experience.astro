@@ -1,0 +1,67 @@
+---
+import ExperienceTiltCard from '../ui/ExperienceTiltCard';
+
+const tracks = [
+  {
+    period:   '2003 — Present',
+    duration: '10+',
+    unit:     'years',
+    label:    'Consulting',
+    heading:  'Strategy and transformation inside professional services.',
+    body:     'Deep expertise in organizational change, technology strategy, and operating model design. Working at the most complex organizations during their most consequential transformations. The discipline that taught me how organizations actually decide, resist, and adopt.',
+  },
+  {
+    period:   '2015 — Present',
+    duration: '8+',
+    unit:     'years',
+    label:    'Product',
+    heading:  'Building things people actually rely on.',
+    body:     'Product leadership across enterprise software, internal platforms, and client-facing systems. The discipline that taught me the gap between what stakeholders ask for and what users actually need — and how to ship in the space between those two things.',
+  },
+  {
+    period:   '2021 — Present',
+    duration: '3+',
+    unit:     'years',
+    label:    'AI',
+    heading:  'Deploying AI inside organizations that can\'t afford to get it wrong.',
+    body:     'Director-level AI deployment in professional services: agents, evaluation frameworks, governance structures. The work where the other two disciplines converge — strategy depth, product instinct, and the technical fluency to know what\'s actually possible.',
+  },
+];
+---
+
+<section id="experience" aria-labelledby="experience-heading" class="border-t border-rule py-24 md:py-32">
+
+  <header class="mb-14 fade-up">
+    <p class="font-mono text-[10px] tracking-[0.18em] text-ink-3 mb-3">// 02 — EXPERIENCE</p>
+    <h2
+      id="experience-heading"
+      class="font-serif font-light text-[clamp(1.6rem,3.2vw,2.6rem)] text-ink leading-snug"
+      style="font-variation-settings: 'opsz' 72"
+    >
+      Twenty-one years across consulting, product, and AI.
+    </h2>
+  </header>
+
+  <div class="experience-grid grid md:grid-cols-3 fade-up delay-1">
+    {tracks.map((t) => (
+      <ExperienceTiltCard
+        period={t.period}
+        duration={t.duration}
+        unit={t.unit}
+        label={t.label}
+        heading={t.heading}
+        body={t.body}
+        client:visible
+      />
+    ))}
+  </div>
+
+  <p
+    class="font-serif italic text-[clamp(1rem,2vw,1.35rem)] text-ink-2 mt-12 max-w-2xl fade-up delay-2"
+    style="font-variation-settings: 'opsz' 48"
+  >
+    "The combination is the differentiator: strategy depth, product instinct, AI fluency.
+    Twenty-one years building toward a moment where all three matter simultaneously."
+  </p>
+
+</section>

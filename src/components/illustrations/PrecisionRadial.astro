@@ -1,0 +1,63 @@
+---
+interface Props {
+  color?: string;
+}
+const { color = '#F5F0E6' } = Astro.props;
+
+const svgW   = 260;
+const svgH   = 340;
+const cx     = svgW / 2;
+const cy     = svgH / 2;
+const maxR   = 115;
+const innerR = 6;
+const outerR = maxR + 8;
+
+const lines = Array.from({ length: 36 }, (_, i) => {
+  const angle        = (i * 10) * Math.PI / 180;
+  const lengthFactor = (i % 9 === 0) ? 1.0 : (i % 3 === 0) ? 0.75 : 0.50;
+  const r            = maxR * lengthFactor;
+  return {
+    x1: +(cx + innerR * Math.cos(angle)).toFixed(1),
+    y1: +(cy + innerR * Math.sin(angle)).toFixed(1),
+    x2: +(cx + r       * Math.cos(angle)).toFixed(1),
+    y2: +(cy + r       * Math.sin(angle)).toFixed(1),
+  };
+});
+---
+
+<svg
+  viewBox={`0 0 ${svgW} ${svgH}`}
+  width="100%"
+  fill={color}
+  stroke={color}
+  role="img"
+  aria-label="Precision radial measurement instrument"
+  class="illus-radial w-full"
+>
+  <g class="illus-group" style={`transform-origin: ${cx}px ${cy}px`}>
+    <!-- Outer dashed reference ring -->
+    <circle
+      cx={cx} cy={cy} r={outerR}
+      fill="none"
+      stroke={color}
+      stroke-width="0.75"
+      stroke-dasharray="3 6"
+      opacity="0.3"
+    />
+    <!-- Inner solid ring -->
+    <circle cx={cx} cy={cy} r={innerR - 2} fill={color} opacity="0.6" />
+    <!-- Center dot -->
+    <circle cx={cx} cy={cy} r="3" fill={color} />
+    <!-- Radial lines -->
+    {lines.map(l => (
+      <line
+        x1={l.x1} y1={l.y1}
+        x2={l.x2} y2={l.y2}
+        stroke={color}
+        stroke-width="1"
+        stroke-linecap="round"
+        opacity="0.9"
+      />
+    ))}
+  </g>
+</svg>

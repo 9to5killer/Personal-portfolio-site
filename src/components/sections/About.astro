@@ -1,0 +1,73 @@
+---
+import DotField from '../atmosphere/DotField.astro';
+---
+<section id="about" aria-labelledby="about-heading" class="relative border-t border-rule py-24 md:py-32">
+
+  <!-- Ambient dot field — decorative background, z-index 0 -->
+  <DotField />
+
+  <!-- Content — sits above dot field -->
+  <div class="relative z-10 grid md:grid-cols-[1fr_320px] gap-16 md:gap-24 items-start">
+
+    <!-- Main column -->
+    <div>
+      <header class="mb-10 fade-up">
+        <p class="font-mono text-[10px] tracking-[0.18em] text-ink-3 mb-3">// 01 — ABOUT</p>
+        <h2
+          id="about-heading"
+          class="font-serif font-light text-[clamp(1.6rem,3.2vw,2.6rem)] text-ink leading-snug"
+          style="font-variation-settings: 'opsz' 72"
+        >
+          I lead AI deployment inside organizations where the stakes are high and the standards are higher.
+        </h2>
+      </header>
+
+      <div class="space-y-5 text-ink-2 leading-relaxed fade-up delay-1">
+        <p>
+          Most of what I build isn't visible publicly. The tools live behind firewalls.
+          The deployments serve internal users. The wins are measured in productivity
+          and quality rather than press releases.
+        </p>
+        <p>
+          But this is some of the most consequential AI work happening in enterprise
+          right now: making senior expertise scalable, automating the manual work that
+          buries professionals, and building governance that lets organizations move
+          fast without breaking trust.
+        </p>
+        <p>
+          I'm here to share what I'm learning — about deployment patterns that actually
+          work, the gap between AI hype and AI value, and what it takes to lead AI
+          inside organizations that can't afford to get it wrong.
+        </p>
+      </div>
+    </div>
+
+    <!-- Marginalia column -->
+    <aside aria-label="Related context" class="fade-up delay-2">
+      <div class="border-l border-rule pl-6 space-y-8 text-xs font-mono text-ink-3">
+
+        <div>
+          <p class="tracking-[0.14em] uppercase mb-2 text-ink-2">Current role</p>
+          <p class="leading-relaxed">Director of AI</p>
+        </div>
+
+        <div>
+          <p class="tracking-[0.14em] uppercase mb-2 text-ink-2">What I build</p>
+          <p class="leading-relaxed">Internal AI agents<br/>Evaluation frameworks<br/>Governance structures</p>
+        </div>
+
+        <div>
+          <p class="tracking-[0.14em] uppercase mb-2 text-ink-2">Why it matters</p>
+          <p class="leading-relaxed">Enterprise AI that<br/>actually reaches users</p>
+        </div>
+
+        <div>
+          <p class="tracking-[0.14em] uppercase mb-2 text-ink-2">Where to find me</p>
+          <a href="mailto:kc@kevinclark.ai" class="link-draw text-ink-2">kc@kevinclark.ai</a>
+        </div>
+
+      </div>
+    </aside>
+
+  </div>
+</section>

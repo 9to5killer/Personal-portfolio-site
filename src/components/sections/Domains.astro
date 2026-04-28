@@ -1,0 +1,86 @@
+---
+const domains = [
+  {
+    num:   '01',
+    name:  'AI Deployment',
+    desc:  'From prototype to production — integration, volume handling, organizational adoption.',
+  },
+  {
+    num:   '02',
+    name:  'Evaluation Design',
+    desc:  'Frameworks for what "good enough" means across high-stakes professional workflows.',
+  },
+  {
+    num:   '03',
+    name:  'Agent Architecture',
+    desc:  'Systems that automate and augment expert work without removing human judgment.',
+  },
+  {
+    num:   '04',
+    name:  'Enterprise Strategy',
+    desc:  'Technology decisions inside complex organizations with competing stakeholders.',
+  },
+  {
+    num:   '05',
+    name:  'Change Management',
+    desc:  'Why organizational adoption fails and the structural reasons it gets ignored.',
+  },
+  {
+    num:   '06',
+    name:  'Knowledge Work',
+    desc:  'Making professional expertise scalable without diluting the expertise itself.',
+  },
+  {
+    num:   '07',
+    name:  'Governance & Risk',
+    desc:  'Moving fast without breaking trust — compliance, accountability, audit trails.',
+  },
+  {
+    num:   '08',
+    name:  'Product Leadership',
+    desc:  'Building what users need, not what stakeholders ask for, inside enterprise constraints.',
+  },
+  {
+    num:   '09',
+    name:  'AI Literacy',
+    desc:  'Closing the gap between capability and understanding before it becomes a liability.',
+  },
+];
+---
+
+<section id="domains" aria-labelledby="domains-heading" class="border-t border-rule py-24 md:py-32">
+
+  <header class="mb-14 fade-up">
+    <p class="font-mono text-[10px] tracking-[0.18em] text-ink-3 mb-3">// 03 — DOMAINS</p>
+    <h2
+      id="domains-heading"
+      class="font-serif font-light text-[clamp(1.6rem,3.2vw,2.6rem)] text-ink leading-snug"
+      style="font-variation-settings: 'opsz' 72"
+    >
+      Where the work lives.
+    </h2>
+    <p class="text-sm text-ink-3 mt-3 max-w-lg leading-relaxed">
+      Nine intersecting disciplines that show up in almost every engagement.
+    </p>
+  </header>
+
+  <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-rule fade-up delay-1">
+    {domains.map((d) => (
+      <div class="domain-card bg-parchment border border-transparent p-7 flex flex-col gap-3 group cursor-default">
+        <div class="flex items-start justify-between">
+          <span
+            class="domain-num font-mono text-[10px] tracking-[0.14em] text-ink-3 transition-colors duration-220"
+            aria-hidden="true"
+          >
+            {d.num}
+          </span>
+        </div>
+        <h3 class="font-serif font-light text-lg text-ink leading-snug" style="font-variation-settings: 'opsz' 48">
+          {d.name}
+        </h3>
+        <p class="text-xs text-ink-3 leading-relaxed">{d.desc}</p>
+      </div>
+    ))}
+  </div>
+
+</section>
