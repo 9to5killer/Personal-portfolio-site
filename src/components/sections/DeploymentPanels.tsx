@@ -256,7 +256,7 @@ export default function DeploymentPanels() {
               minHeight:       isMobile ? 'auto' : '640px',
               willChange:      'flex',
             }}
-            tabIndex={0}
+            className="deploy-panel" tabIndex={0}
             role="article"
             aria-label={`${panel.line1} ${panel.line2}`}
           >
