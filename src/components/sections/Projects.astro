@@ -2,30 +2,12 @@
 const projects = [
   {
     num:    '01',
-    slug:   'meeting-intelligence-agent',
-    title:  'Meeting Intelligence Agent',
-    tags:   ['Whisper', 'Claude', 'TypeScript'],
-    status: 'In development',
-    body:   'An AI system that generates structured summaries, action items, and decision logs from meeting transcripts. Built on Whisper + Claude. Ships publicly once it clears firm publishing guidelines.',
+    slug:   'autonomous-market-monitoring',
+    title:  'Autonomous Market Monitoring System',
+    tags:   ['Python', 'Alpaca API', 'pandas', 'Flask', 'Plotly'],
+    status: 'Live',
+    body:   'A production AI agent that observes market conditions, evaluates signals, manages risk, and executes paper trades without human intervention — every hour the market is open.',
     featured: true,
-  },
-  {
-    num:    '02',
-    slug:   'ai-evaluation-framework',
-    title:  'AI Evaluation Framework',
-    tags:   ['Python', 'LLM eval'],
-    status: 'In development',
-    body:   'An open framework for evaluating LLM outputs against domain-specific quality criteria. Designed to address the threshold problem: what does "good enough" mean for high-stakes professional work?',
-    featured: false,
-  },
-  {
-    num:    '03',
-    slug:   'knowledge-worker-suite',
-    title:  'Knowledge Worker Augmentation Suite',
-    tags:   ['Agents', 'RAG'],
-    status: 'Planned',
-    body:   'A collection of AI tools targeting specific workflows where professional expertise creates the most value, and where manual effort creates the most drag.',
-    featured: false,
   },
 ];
 
@@ -41,7 +23,7 @@ function dotClass(status: string) {
 <section id="projects" aria-labelledby="projects-heading" class="border-t border-rule py-24 md:py-32">
 
   <header class="mb-14 fade-up">
-    <p class="font-mono text-[10px] tracking-[0.18em] text-ink-3 mb-3">// 05 — PUBLIC PROJECTS</p>
+    <p class="font-mono text-[10px] tracking-[0.18em] text-ink-3 mb-3">// 06 — PUBLIC PROJECTS</p>
     <h2
       id="projects-heading"
       class="font-serif font-light text-[clamp(1.6rem,3.2vw,2.6rem)] text-ink leading-tight"
@@ -50,14 +32,14 @@ function dotClass(status: string) {
       Building in the open.
     </h2>
     <p class="text-sm text-ink-3 mt-3 max-w-lg leading-relaxed">
-      Documenting what I build outside of work: small AI systems, experiments, and prototypes.
-      Each shipped publicly with the code, the reasoning, and what I'd do differently next time.
+      Documenting what I build outside of work — production systems, not prototypes.
+      Shipped publicly with the code, the reasoning, and real performance data.
     </p>
   </header>
 
   <div class="space-y-4 fade-up delay-1">
     {projects.filter(p => p.featured).map((p) => (
-      <a
+        <a
         href={`/projects/${p.slug}`}
         class="project-card block border border-rule p-8 md:p-10 grid md:grid-cols-2 gap-8 group"
         aria-label={`View ${p.title}`}
@@ -91,38 +73,6 @@ function dotClass(status: string) {
         </div>
       </a>
     ))}
-
-    <div class="grid md:grid-cols-2 gap-4">
-      {projects.filter(p => !p.featured).map((p) => (
-        <a
-          href={`/projects/${p.slug}`}
-          class="project-card block border border-rule p-7 group"
-          aria-label={`View ${p.title}`}
-        >
-          <div class="flex items-start justify-between mb-5">
-            <span class="font-mono text-[10px] tracking-[0.14em] text-ink-3">
-              {p.num}/{String(total).padStart(2, '0')}
-            </span>
-            <span class="font-mono text-[10px] tracking-[0.14em] flex items-center text-ink-3">
-              <span class={`status-dot ${dotClass(p.status)}`} aria-hidden="true"></span>
-              {p.status}
-            </span>
-          </div>
-          <h3 class="font-serif font-light text-xl text-ink leading-snug mb-4 group-hover:text-ink-2 transition-colors" style="font-variation-settings: 'opsz' 32">
-            {p.title}
-          </h3>
-          <p class="text-sm text-ink-2 leading-relaxed mb-5">{p.body}</p>
-          <div class="flex items-center justify-between">
-            <div class="flex flex-wrap gap-2">
-              {p.tags.map(tag => (
-                <span class="font-mono text-[10px] tracking-[0.1em] border border-rule px-2 py-1 text-ink-3">{tag}</span>
-              ))}
-            </div>
-            <span class="font-mono text-[10px] tracking-[0.14em] text-ink-3 group-hover:text-ink transition-colors shrink-0 ml-4">→</span>
-          </div>
-        </a>
-      ))}
-    </div>
   </div>
 
 </section>
