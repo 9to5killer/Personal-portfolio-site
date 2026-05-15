@@ -1,0 +1,299 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="Autonomous Market Monitoring System — Kevin Clark" description="A production AI agent that observes market conditions, evaluates signals, manages risk, and executes paper trades without human intervention — every hour the market is open.">
+<style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0a; --bg-2: #111111; --bg-3: #1a1a1a;
+      --border: rgba(255,255,255,0.08); --border-2: rgba(255,255,255,0.14);
+      --text: #f0ede6; --text-2: #888880; --text-3: #555550;
+      --accent: #c8f060; --accent-dim: rgba(200,240,96,0.1); --accent-border: rgba(200,240,96,0.25);
+      --red: #f05060; --green: #60d080;
+      --mono: 'JetBrains Mono', 'Fira Code', monospace;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+    }
+    .page-wrap { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+    a { color: inherit; text-decoration: none; }
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 20px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); background: rgba(10,10,10,0.85); backdrop-filter: blur(12px); }
+    .nav-back { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; color: var(--text-2); text-transform: uppercase; display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .nav-back:hover { color: var(--accent); }
+    .nav-status { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; color: var(--text-2); }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .hero { padding: 160px 40px 80px; max-width: 900px; margin: 0 auto; }
+    .hero-tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 28px; display: flex; align-items: center; gap: 12px; }
+    .hero-tag::after { content: ''; display: block; width: 40px; height: 1px; background: var(--accent-border); }
+    h1 { font-family: var(--serif); font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 400; line-height: 1.1; color: var(--text); margin-bottom: 28px; }
+    .hero-sub { font-size: 18px; color: var(--text-2); max-width: 600px; line-height: 1.7; margin-bottom: 48px; }
+    .hero-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .metric { background: var(--bg-2); padding: 24px 20px; }
+    .metric-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; }
+    .metric-value { font-family: var(--mono); font-size: 22px; font-weight: 500; color: var(--text); }
+    .metric-value.green { color: var(--green); }
+    .metric-value.accent { color: var(--accent); }
+    .section { max-width: 900px; margin: 0 auto; padding: 80px 40px; border-top: 1px solid var(--border); }
+    .section-tag { font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-3); margin-bottom: 40px; }
+    h2 { font-family: var(--serif); font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 400; line-height: 1.2; margin-bottom: 24px; }
+    p { color: var(--text-2); margin-bottom: 16px; max-width: 660px; }
+    .arch { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 48px; }
+    .arch-cell { background: var(--bg-2); padding: 28px 24px; }
+    .arch-num { font-family: var(--mono); font-size: 10px; color: var(--text-3); letter-spacing: 0.1em; margin-bottom: 14px; }
+    .arch-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 10px; }
+    .arch-body { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+    .signal-flow { margin-top: 48px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .signal-row { display: flex; align-items: flex-start; gap: 24px; padding: 24px 28px; border-bottom: 1px solid var(--border); background: var(--bg-2); transition: background 0.2s; }
+    .signal-row:last-child { border-bottom: none; }
+    .signal-row:hover { background: var(--bg-3); }
+    .signal-icon { width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border-2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: var(--mono); font-size: 11px; color: var(--accent); }
+    .signal-content { flex: 1; }
+    .signal-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+    .signal-desc { font-size: 13px; color: var(--text-2); line-height: 1.6; max-width: none; margin: 0; }
+    .signal-tag { font-family: var(--mono); font-size: 10px; padding: 3px 8px; border-radius: 4px; border: 1px solid var(--border-2); color: var(--text-3); flex-shrink: 0; align-self: flex-start; margin-top: 2px; }
+    .simulator { margin-top: 48px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .sim-header { padding: 20px 28px; background: var(--bg-2); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .sim-title { font-family: var(--mono); font-size: 12px; color: var(--text-2); letter-spacing: 0.06em; }
+    .sim-body { padding: 28px; background: var(--bg-2); }
+    .sim-controls { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 32px; }
+    .control-group label { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; }
+    .control-group select { width: 100%; background: var(--bg-3); border: 1px solid var(--border-2); border-radius: 6px; color: var(--text); font-family: var(--mono); font-size: 13px; padding: 8px 12px; appearance: none; cursor: pointer; }
+    .range-row { display: flex; align-items: center; gap: 10px; }
+    .range-val { font-family: var(--mono); font-size: 12px; color: var(--accent); min-width: 36px; text-align: right; }
+    input[type="range"] { -webkit-appearance: none; width: 100%; height: 2px; background: var(--border-2); border-radius: 2px; cursor: pointer; }
+    input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); cursor: pointer; }
+    .run-btn { width: 100%; padding: 14px; background: var(--accent); color: #0a0a0a; border: none; border-radius: 8px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; cursor: pointer; transition: opacity 0.2s; margin-bottom: 28px; }
+    .run-btn:hover { opacity: 0.85; }
+    .run-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .sim-results { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+    .result-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .result-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 8px; }
+    .result-value { font-family: var(--mono); font-size: 18px; font-weight: 500; color: var(--text); }
+    .result-value.pos { color: var(--green); }
+    .result-value.neg { color: var(--red); }
+    .chart-wrap { position: relative; height: 200px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--bg); }
+    .trade-log { margin-top: 20px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; max-height: 220px; overflow-y: auto; }
+    .trade-log-header { display: grid; grid-template-columns: 60px 60px 1fr 70px 70px; gap: 12px; padding: 10px 16px; background: var(--bg); border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); position: sticky; top: 0; }
+    .trade-row { display: grid; grid-template-columns: 60px 60px 1fr 70px 70px; gap: 12px; padding: 9px 16px; border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+    .trade-row:last-child { border-bottom: none; }
+    .trade-row.buy .action { color: var(--green); }
+    .trade-row.sell .action { color: var(--red); }
+    .trade-row .pnl.pos { color: var(--green); }
+    .trade-row .pnl.neg { color: var(--red); }
+    .code-block { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-top: 48px; font-family: var(--mono); font-size: 13px; line-height: 1.8; overflow-x: auto; }
+    .code-block .comment { color: var(--text-3); }
+    .code-block .keyword { color: var(--accent); }
+    .code-block .string { color: #80c0e0; }
+    .code-block .fn { color: #c080e0; }
+    .risk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 48px; }
+    .risk-cell { background: var(--bg-2); padding: 24px; }
+    .risk-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 8px; }
+    .risk-value { font-family: var(--mono); font-size: 20px; font-weight: 500; color: var(--accent); margin-bottom: 6px; }
+    .risk-desc { font-size: 13px; color: var(--text-2); max-width: none; margin: 0; line-height: 1.5; }
+    .page-footer { border-top: 1px solid var(--border); padding: 40px; max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+    .footer-left { font-family: var(--mono); font-size: 11px; color: var(--text-3); letter-spacing: 0.06em; }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-link { font-family: var(--mono); font-size: 11px; color: var(--text-2); letter-spacing: 0.06em; transition: color 0.2s; }
+    .footer-link:hover { color: var(--accent); }
+    @media (max-width: 700px) {
+      .nav { padding: 16px 20px; }
+      .hero { padding: 120px 20px 60px; }
+      .section { padding: 60px 20px; }
+      .hero-metrics { grid-template-columns: 1fr 1fr; }
+      .arch { grid-template-columns: 1fr; }
+      .sim-controls { grid-template-columns: 1fr; }
+      .sim-results { grid-template-columns: 1fr 1fr; }
+      .page-footer { flex-direction: column; gap: 20px; padding: 40px 20px; }
+    }
+</style>
+<div class="page-wrap">
+<nav class="nav">
+  <a href="/#projects" class="nav-back">← Kevin Clark</a>
+  <div class="nav-status"><div class="status-dot"></div>Paper trading · Live</div>
+</nav>
+
+<section class="hero">
+  <div class="hero-tag">Project 01 &nbsp;·&nbsp; Shipped</div>
+  <h1>Autonomous Market<br>Monitoring System</h1>
+  <p class="hero-sub">A production AI agent that observes market conditions, evaluates signals, manages risk, and executes paper trades without human intervention — every hour the market is open.</p>
+  <div class="hero-metrics">
+    <div class="metric"><div class="metric-label">Status</div><div class="metric-value accent">Live</div></div>
+    <div class="metric"><div class="metric-label">Equities watched</div><div class="metric-value">10</div></div>
+    <div class="metric"><div class="metric-label">Tick frequency</div><div class="metric-value">1 hr</div></div>
+    <div class="metric"><div class="metric-label">Backtest return</div><div class="metric-value green">+7.4%</div></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-tag">// 01 — What it is</div>
+  <h2>Not a demo. A running system.</h2>
+  <p>Most AI projects in a portfolio are prototypes — things that worked once, in a controlled environment, on a good day. This is not that.</p>
+  <p>This system runs on the Alpaca Markets paper trading API, pulls live market data every hour, evaluates 10 equities against a multi-signal strategy, and places real simulated orders. The dashboard updates in real time. The risk manager has hard limits. The trade log persists across sessions.</p>
+  <p>It was built, debugged, backtested, and parameter-tuned in a single session. The parameters running live today were selected after a sweep across 4 configurations and 365 days of hourly data across 4 symbols.</p>
+  <div class="arch">
+    <div class="arch-cell"><div class="arch-num">01</div><div class="arch-title">Data ingestion</div><div class="arch-body">Alpaca Markets API pulls hourly OHLCV bars for all 10 symbols. 60-bar rolling window. IEX feed.</div></div>
+    <div class="arch-cell"><div class="arch-num">02</div><div class="arch-title">Signal engine</div><div class="arch-body">RSI(14), SMA crossover (9/21), 50-bar trend filter, MACD histogram. Requires confluence — no single-indicator trades.</div></div>
+    <div class="arch-cell"><div class="arch-num">03</div><div class="arch-title">Risk layer</div><div class="arch-body">Hard stop-loss at 3%. Trailing stop at 3.5%. Daily loss circuit breaker at 5% of portfolio. Position size capped at 10%.</div></div>
+    <div class="arch-cell"><div class="arch-num">04</div><div class="arch-title">Execution</div><div class="arch-body">Market orders via Alpaca. Paper trading mode. Configurable for live with a single env variable change.</div></div>
+    <div class="arch-cell"><div class="arch-num">05</div><div class="arch-title">State management</div><div class="arch-body">Thread-safe state store tracks positions, peak prices, bars held, cooldown periods, and trade history.</div></div>
+    <div class="arch-cell"><div class="arch-num">06</div><div class="arch-title">Dashboard</div><div class="arch-body">Flask API + vanilla JS frontend. Auto-refreshes every 30s. Stop/Start bot controls. Accessible on local network.</div></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-tag">// 02 — Signal logic</div>
+  <h2>How the bot decides.</h2>
+  <p>Every hourly tick runs each symbol through the same decision tree. The strategy requires multiple conditions to align — it doesn't trade noise.</p>
+  <div class="signal-flow">
+    <div class="signal-row"><div class="signal-icon">01</div><div class="signal-content"><div class="signal-title">Trend filter</div><p class="signal-desc">Price must be above the 50-bar SMA. No buys in downtrending stocks. This single filter eliminates the majority of losing setups.</p></div><div class="signal-tag">Required</div></div>
+    <div class="signal-row"><div class="signal-icon">02</div><div class="signal-content"><div class="signal-title">RSI dip entry</div><p class="signal-desc">RSI(14) below 40 signals a short-term oversold condition within an uptrend. Buying weakness, not strength.</p></div><div class="signal-tag">OR</div></div>
+    <div class="signal-row"><div class="signal-icon">03</div><div class="signal-content"><div class="signal-title">MA crossover + MACD confirmation</div><p class="signal-desc">9-bar SMA crossing above 21-bar SMA, confirmed by positive MACD histogram. Momentum-based entry requiring two signals to agree.</p></div><div class="signal-tag">OR</div></div>
+    <div class="signal-row"><div class="signal-icon">04</div><div class="signal-content"><div class="signal-title">Exit: trailing stop</div><p class="signal-desc">Once in a position, peak price is tracked. A 3.5% drop from peak triggers exit. Locks in gains on winners, limits losses on losers.</p></div><div class="signal-tag">Exit</div></div>
+    <div class="signal-row"><div class="signal-icon">05</div><div class="signal-content"><div class="signal-title">Exit: signal deterioration</div><p class="signal-desc">RSI overbought above 65, MA cross down, or MACD turning negative triggers a sell after minimum hold period of 3 bars.</p></div><div class="signal-tag">Exit</div></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-tag">// 03 — Interactive backtest</div>
+  <h2>Run the strategy yourself.</h2>
+  <p>Adjust the parameters and see how strategy behavior changes. Runs the actual trading logic against synthetic market data generated from real statistical properties.</p>
+  <div class="simulator">
+    <div class="sim-header">
+      <span class="sim-title">Strategy simulator — synthetic data</span>
+      <span class="sim-title" style="color: var(--text-3); font-size: 10px;">Not financial advice</span>
+    </div>
+    <div class="sim-body">
+      <div class="sim-controls">
+        <div class="control-group"><label>Symbol profile</label><select id="symbolSelect"><option value="growth">High growth (NVDA-like)</option><option value="stable">Stable large cap (AAPL-like)</option><option value="volatile">High volatility (PLTR-like)</option><option value="sideways">Sideways / choppy (QCOM-like)</option></select></div>
+        <div class="control-group"><label>RSI oversold threshold</label><div class="range-row"><input type="range" id="rsiSlider" min="25" max="50" value="40" step="1"/><span class="range-val" id="rsiVal">40</span></div></div>
+        <div class="control-group"><label>Trailing stop %</label><div class="range-row"><input type="range" id="trailSlider" min="1" max="8" value="3.5" step="0.5"/><span class="range-val" id="trailVal">3.5%</span></div></div>
+        <div class="control-group"><label>Min hold bars</label><div class="range-row"><input type="range" id="holdSlider" min="1" max="10" value="3" step="1"/><span class="range-val" id="holdVal">3</span></div></div>
+        <div class="control-group"><label>Position size %</label><div class="range-row"><input type="range" id="sizeSlider" min="5" max="25" value="10" step="1"/><span class="range-val" id="sizeVal">10%</span></div></div>
+        <div class="control-group"><label>Cooldown bars</label><div class="range-row"><input type="range" id="coolSlider" min="1" max="6" value="2" step="1"/><span class="range-val" id="coolVal">2</span></div></div>
+      </div>
+      <button class="run-btn" id="runBtn" onclick="runSim()">Run Backtest — 365 days</button>
+      <div class="sim-results">
+        <div class="result-card"><div class="result-label">Total return</div><div class="result-value" id="res-return">—</div></div>
+        <div class="result-card"><div class="result-label">Total trades</div><div class="result-value" id="res-trades">—</div></div>
+        <div class="result-card"><div class="result-label">Win rate</div><div class="result-value" id="res-winrate">—</div></div>
+        <div class="result-card"><div class="result-label">Max drawdown</div><div class="result-value" id="res-dd">—</div></div>
+      </div>
+      <div class="chart-wrap"><canvas id="equityChart"></canvas></div>
+      <div class="trade-log" id="tradeLog" style="display:none;">
+        <div class="trade-log-header"><span>Bar</span><span>Action</span><span>Price</span><span>Return</span><span>P&L</span></div>
+        <div id="tradeRows"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-tag">// 04 — Risk management</div>
+  <h2>The guardrails.</h2>
+  <p>Every autonomous system that touches money needs hard limits that can't be reasoned around. These are the live parameters running on the paper account today.</p>
+  <div class="risk-grid">
+    <div class="risk-cell"><div class="risk-label">Hard stop-loss</div><div class="risk-value">3.0%</div><p class="risk-desc">Maximum loss per position before forced exit. No exceptions, no overrides.</p></div>
+    <div class="risk-cell"><div class="risk-label">Trailing stop</div><div class="risk-value">3.5%</div><p class="risk-desc">Tracks peak price from entry. Locks in gains as the position moves in your favor.</p></div>
+    <div class="risk-cell"><div class="risk-label">Daily loss limit</div><div class="risk-value">5.0%</div><p class="risk-desc">Circuit breaker. If realized losses hit 5% of portfolio value, no new trades fire for the rest of the day.</p></div>
+    <div class="risk-cell"><div class="risk-label">Max position size</div><div class="risk-value">10%</div><p class="risk-desc">No single position exceeds 10% of available cash. Enforced at order placement.</p></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-tag">// 05 — What this demonstrates</div>
+  <h2>The point is the deployment.</h2>
+  <p>This isn't an AI strategy exercise. It's a production deployment of an autonomous decision-making agent — with a data pipeline, a signal engine, a risk layer, a state manager, an API integration, and a monitoring interface.</p>
+  <p>That stack is structurally identical to any enterprise AI agent: ingest data, evaluate against rules, manage state, execute actions, observe outputs. The domain is financial markets. The pattern is universal.</p>
+  <div class="code-block">
+<span class="comment"># The core decision loop — runs every hour the market is open</span><br><br>
+<span class="keyword">def</span> <span class="fn">get_signal</span>(df, bars_held, bars_since_exit, in_position):<br>
+&nbsp;&nbsp;<span class="comment"># Enforce minimum hold — prevents panic selling</span><br>
+&nbsp;&nbsp;<span class="keyword">if</span> in_position <span class="keyword">and</span> bars_held &lt; MIN_HOLD_BARS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="string">"hold"</span><br><br>
+&nbsp;&nbsp;<span class="comment"># Trend filter — no buys in downtrends</span><br>
+&nbsp;&nbsp;<span class="keyword">if not</span> in_uptrend:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="string">"hold"</span><br><br>
+&nbsp;&nbsp;<span class="comment"># Cooldown after stop-loss — prevents revenge trading</span><br>
+&nbsp;&nbsp;<span class="keyword">if</span> bars_since_exit &lt; COOLDOWN_BARS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="string">"hold"</span><br><br>
+&nbsp;&nbsp;<span class="comment"># Entry: RSI dip OR MA crossover with MACD confirmation</span><br>
+&nbsp;&nbsp;<span class="keyword">if</span> rsi &lt; RSI_OVERSOLD <span class="keyword">or</span> (ma_cross_up <span class="keyword">and</span> macd_bullish):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="string">"buy"</span><br><br>
+&nbsp;&nbsp;<span class="keyword">return</span> <span class="string">"hold"</span>
+  </div>
+</section>
+
+<footer class="page-footer">
+  <div class="footer-left">© 2026 Kevin Clark · Paper trading only</div>
+  <div class="footer-links">
+    <a href="https://github.com/9to5killer" class="footer-link">GitHub ↗</a>
+    <a href="mailto:kc@kevinclark.ai" class="footer-link">Contact ↗</a>
+    <a href="/" class="footer-link">Home ↗</a>
+  </div>
+</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const sliders = [['rsiSlider','rsiVal',v=>v],['trailSlider','trailVal',v=>v+'%'],['holdSlider','holdVal',v=>v],['sizeSlider','sizeVal',v=>v+'%'],['coolSlider','coolVal',v=>v]];
+sliders.forEach(([sid,vid,fmt])=>{const s=$(sid),v=$(vid);s.addEventListener('input',()=>{v.textContent=fmt(s.value);});});
+const profiles={growth:{drift:0.0003,vol:0.018,trend:0.6},stable:{drift:0.0002,vol:0.010,trend:0.7},volatile:{drift:0.0002,vol:0.030,trend:0.45},sideways:{drift:0.00005,vol:0.012,trend:0.5}};
+function generatePrice(bars,profile){const p=profiles[profile];const prices=[100];let trendDir=1,trendBars=0;for(let i=1;i<bars;i++){trendBars++;if(trendBars>20+Math.random()*40){trendDir=Math.random()<p.trend?1:-1;trendBars=0;}const ret=p.drift*trendDir+p.vol*(Math.random()*2-1);prices.push(Math.max(20,prices[i-1]*(1+ret)));}return prices;}
+function computeRSI(prices,period){const rsi=new Array(prices.length).fill(null);if(prices.length<period+1)return rsi;let gains=0,losses=0;for(let i=1;i<=period;i++){const d=prices[i]-prices[i-1];if(d>0)gains+=d;else losses-=d;}let avgG=gains/period,avgL=losses/period;rsi[period]=100-100/(1+(avgL===0?100:avgG/avgL));for(let i=period+1;i<prices.length;i++){const d=prices[i]-prices[i-1];const g=d>0?d:0,l=d<0?-d:0;avgG=(avgG*(period-1)+g)/period;avgL=(avgL*(period-1)+l)/period;rsi[i]=100-100/(1+(avgL===0?100:avgG/avgL));}return rsi;}
+function sma(arr,period){return arr.map((_,i)=>{if(i<period-1)return null;return arr.slice(i-period+1,i+1).reduce((a,b)=>a+b,0)/period;});}
+let chartInstance=null;
+function runSim(){
+  const btn=$('runBtn');btn.disabled=true;btn.textContent='Running...';
+  setTimeout(()=>{
+    const profile=$('symbolSelect').value;
+    const rsiOS=parseFloat($('rsiSlider').value);
+    const trail=parseFloat($('trailSlider').value)/100;
+    const minHold=parseInt($('holdSlider').value);
+    const posPct=parseFloat($('sizeSlider').value)/100;
+    const cooldown=parseInt($('coolSlider').value);
+    const stopLoss=0.03;
+    const BARS=Math.floor(365*6.5);
+    const prices=generatePrice(BARS,profile);
+    const rsiArr=computeRSI(prices,14);
+    const sma9=sma(prices,9);const sma21=sma(prices,21);const sma50=sma(prices,50);
+    let cash=100000,shares=0,entry=0,peak=0,barsHeld=0,barsExit=999,lastSL=false;
+    const trades=[];const equity=[];
+    for(let i=51;i<prices.length;i++){
+      const price=prices[i];const rsi=rsiArr[i];
+      const inTrend=price>sma50[i];
+      const maCrossUp=sma9[i-1]!==null&&sma21[i-1]!==null&&sma9[i-1]<=sma21[i-1]&&sma9[i]>sma21[i];
+      equity.push(cash+shares*price);
+      if(shares>0){
+        barsHeld++;if(price>peak)peak=price;
+        if(price<=entry*(1-stopLoss)){const pnl=(price-entry)*shares;cash+=shares*price;trades.push({bar:i,action:'SELL',price,pnl,reason:'Stop loss'});shares=0;barsHeld=0;barsExit=0;lastSL=true;peak=0;continue;}
+        if(barsHeld>=minHold&&price<=peak*(1-trail)){const pnl=(price-entry)*shares;cash+=shares*price;trades.push({bar:i,action:'SELL',price,pnl,reason:'Trail stop'});shares=0;barsHeld=0;barsExit=0;lastSL=false;peak=0;continue;}
+        if(barsHeld>=minHold){const bearish=rsi>65||(sma9[i]<sma21[i]&&sma9[i-1]>=sma21[i-1]);if(bearish){const pnl=(price-entry)*shares;cash+=shares*price;trades.push({bar:i,action:'SELL',price,pnl,reason:'Signal'});shares=0;barsHeld=0;barsExit=0;lastSL=false;peak=0;}}
+      } else {
+        barsExit++;const cd=lastSL?barsExit:999;if(cd<cooldown)continue;if(!inTrend)continue;if(rsi===null)continue;
+        if((rsi<rsiOS||maCrossUp)&&cash>0){const qty=Math.floor((cash*posPct)/price);if(qty>0){shares=qty;entry=price;peak=price;cash-=shares*price;barsHeld=0;trades.push({bar:i,action:'BUY',price,pnl:null,reason:rsi<rsiOS?'RSI dip':'MA cross'});}}
+      }
+    }
+    if(shares>0){const price=prices[prices.length-1];const pnl=(price-entry)*shares;cash+=shares*price;trades.push({bar:prices.length-1,action:'SELL',price,pnl,reason:'End'});}
+    const finalEquity=equity[equity.length-1]||100000;
+    const ret=(finalEquity-100000)/100000*100;
+    const sells=trades.filter(t=>t.action==='SELL'&&t.pnl!==null);
+    const wins=sells.filter(t=>t.pnl>0);
+    const winRate=sells.length>0?wins.length/sells.length*100:0;
+    let peakEq=100000,maxDD=0;for(const e of equity){if(e>peakEq)peakEq=e;const dd=(peakEq-e)/peakEq*100;if(dd>maxDD)maxDD=dd;}
+    const retEl=$('res-return');retEl.textContent=(ret>=0?'+':'')+ret.toFixed(1)+'%';retEl.className='result-value '+(ret>=0?'pos':'neg');
+    $('res-trades').textContent=sells.length;
+    $('res-winrate').textContent=winRate.toFixed(0)+'%';
+    const ddEl=$('res-dd');ddEl.textContent='-'+maxDD.toFixed(1)+'%';ddEl.className='result-value '+(maxDD>10?'neg':'');
+    const step=Math.max(1,Math.floor(equity.length/300));
+    const chartData=equity.filter((_,i)=>i%step===0);
+    if(chartInstance)chartInstance.destroy();
+    chartInstance=new Chart($('equityChart'),{type:'line',data:{labels:chartData.map(()=>''),datasets:[{data:chartData,borderColor:ret>=0?'#60d080':'#f05060',borderWidth:1.5,fill:true,backgroundColor:ret>=0?'rgba(96,208,128,0.06)':'rgba(240,80,96,0.06)',pointRadius:0,tension:0.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'$'+Math.round(ctx.raw).toLocaleString()}}},scales:{x:{display:false},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555550',font:{family:'JetBrains Mono',size:10},callback:v=>'$'+Math.round(v/1000)+'k'}}}}});
+    const logEl=$('tradeLog');const rowsEl=$('tradeRows');logEl.style.display='block';
+    const recentTrades=trades.filter(t=>t.pnl!==null).slice(-30).reverse();
+    rowsEl.innerHTML=recentTrades.map(t=>{const pnlStr=t.pnl!==null?(t.pnl>=0?'+$':'-$')+Math.abs(Math.round(t.pnl)).toLocaleString():'—';const pnlClass=t.pnl!==null?(t.pnl>=0?'pos':'neg'):'';return `<div class="trade-row ${t.action.toLowerCase()}"><span>${t.bar}</span><span class="action">${t.action}</span><span>$${t.price.toFixed(2)} <span style="color:var(--text-3);font-size:10px;">${t.reason}</span></span><span>—</span><span class="pnl ${pnlClass}">${pnlStr}</span></div>`;}).join('');
+    btn.disabled=false;btn.textContent='Run Backtest — 365 days';
+  },50);
+}
+</script>
+</Layout>
