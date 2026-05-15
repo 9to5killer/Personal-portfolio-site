@@ -133,7 +133,7 @@ export default function Navigation() {
         <div className={`md:hidden border-t ${isHero ? 'border-white/10 bg-[#0A0E1A]' : 'border-rule bg-parchment'}`}>
           <nav className="max-w-5xl mx-auto px-8 py-6 flex flex-col gap-5">
             {SECTIONS.map((s) => (
-              
+              <a
                 key={s.id}
                 href={`#${s.id}`}
                 onClick={() => setMenuOpen(false)}
