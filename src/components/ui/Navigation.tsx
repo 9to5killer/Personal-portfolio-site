@@ -15,6 +15,7 @@ export default function Navigation() {
   const [active, setActive]     = useState('');
   const [scrolled, setScrolled] = useState(false);
   const [isHero, setIsHero]     = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
   const { scrollYProgress }     = useScroll();
 
   useEffect(() => {
