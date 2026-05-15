@@ -213,7 +213,7 @@ body {
 
 /* Shared: all illustration groups pause until hover */
 .illus-group {
-  animation-play-state: paused;
+  animation-play-state: running;
 }
 .deploy-panel:hover .illus-group {
   animation-play-state: running;
@@ -242,7 +242,7 @@ body {
 /* Wave expansion — per-path stagger creates ripple-from-inside-out */
 .wave-path {
   animation: wave-flow 3s linear infinite;
-  animation-play-state: paused;
+  animation-play-state: running;
 }
 .deploy-panel:hover .wave-path {
   animation-play-state: running;
