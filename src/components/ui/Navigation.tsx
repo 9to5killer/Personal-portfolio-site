@@ -3,7 +3,6 @@ import { motion, useScroll } from 'framer-motion';
 
 const SECTIONS = [
   { id: 'about',      label: 'About' },
-  { id: 'experience', label: 'Experience' },
   { id: 'domains',    label: 'Domains' },
   { id: 'manifesto',   label: 'Manifesto' },
   { id: 'deployment',  label: 'Deployment' },
