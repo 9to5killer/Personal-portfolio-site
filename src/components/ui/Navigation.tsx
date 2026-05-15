@@ -17,6 +17,7 @@ export default function Navigation() {
   const [isHero, setIsHero]     = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const { scrollYProgress }     = useScroll();
 
   useEffect(() => {
@@ -118,7 +119,34 @@ export default function Navigation() {
           ))}
         </nav>
 
+        {/* Mobile hamburger */}
+        <button
+          className="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-[5px]"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+        >
+          <span className={`block w-5 h-px transition-all duration-300 bg-[#F5F0E6] ${menuOpen ? 'rotate-45 translate-y-[6px]' : ''}`} />
+          <span className={`block w-5 h-px transition-all duration-300 bg-[#F5F0E6] ${menuOpen ? 'opacity-0' : ''}`} />
+          <span className={`block w-5 h-px transition-all duration-300 bg-[#F5F0E6] ${menuOpen ? '-rotate-45 -translate-y-[6px]' : ''}`} />
+        </button>
       </div>
+
+      {menuOpen && (
+        <div className={`md:hidden border-t ${isHero ? 'border-white/10 bg-[#0A0E1A]' : 'border-rule bg-parchment'}`}>
+          <nav className="max-w-5xl mx-auto px-8 py-6 flex flex-col gap-5">
+            {SECTIONS.map((s) => (
+              
+                key={s.id}
+                href={`#${s.id}`}
+                onClick={() => setMenuOpen(false)}
+                className={`font-mono text-[10px] tracking-[0.14em] uppercase ${isHero ? 'text-[#A8A095]' : 'text-ink-3'}`}
+              >
+                {s.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+      )}
     </header>
   );
 }
