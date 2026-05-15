@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 const CREAM = '#F5F0E6';
 const TRANSITION = {
   type:     'tween',
-  duration: 1.1,
+  duration: 0.6,
   ease:     [0.6, 0.05, 0.4, 0.95] as [number, number, number, number],
 };
 
