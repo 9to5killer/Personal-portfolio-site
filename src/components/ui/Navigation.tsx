@@ -24,7 +24,7 @@ export default function Navigation() {
           if (e.isIntersecting) setActive(e.target.id);
         });
       },
-      { threshold: 0.25, rootMargin: '-60px 0px -50% 0px' }
+      { threshold: 0.1, rootMargin: '-60px 0px -50% 0px' }
     );
 
     SECTIONS.forEach((s) => {
