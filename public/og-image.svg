@@ -2,21 +2,19 @@
   <rect width="1200" height="630" fill="#0A0E1A"/>
   <defs>
     <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.06"/>
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
     </pattern>
   </defs>
   <rect width="1200" height="630" fill="url(#grid)"/>
-  <rect x="80" y="80" width="4" height="470" rx="2" fill="#C65D3A"/>
-  <g transform="translate(980, 120)">
-    <rect x="0" y="0" width="22" height="110" rx="11" fill="#C65D3A"/>
-    <rect x="32" y="30" width="22" height="80" rx="11" fill="#C65D3A" opacity="0.85"/>
-    <rect x="64" y="15" width="22" height="95" rx="11" fill="#C65D3A" opacity="0.7"/>
-    <rect x="96" y="0" width="22" height="110" rx="11" fill="#C65D3A" opacity="0.55"/>
+  <rect x="80" y="160" width="5" height="310" rx="2.5" fill="#C65D3A"/>
+  <text x="112" y="255" font-family="Georgia, serif" font-size="80" font-weight="700" fill="#F5F0E6" letter-spacing="-2">Kevin Clark</text>
+  <rect x="112" y="278" width="480" height="1" fill="#F5F0E6" opacity="0.12"/>
+  <text x="112" y="322" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#F5F0E6" opacity="0.55" letter-spacing="1">Strategy · Systems · Execution</text>
+  <text x="112" y="430" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#C65D3A" letter-spacing="2">kevinclark.ai</text>
+  <g transform="translate(780, 195)">
+    <rect x="0"   y="0"   width="40" height="240" rx="20" fill="#C65D3A" opacity="1"/>
+    <rect x="60"  y="60"  width="40" height="120" rx="20" fill="#C65D3A" opacity="0.75"/>
+    <rect x="120" y="30"  width="40" height="180" rx="20" fill="#C65D3A" opacity="0.55"/>
+    <rect x="180" y="0"   width="40" height="240" rx="20" fill="#C65D3A" opacity="0.35"/>
   </g>
-  <text x="108" y="230" font-family="Georgia, 'Times New Roman', serif" font-size="72" font-weight="700" fill="#F5F0E6" letter-spacing="-1">Kevin Clark</text>
-  <rect x="108" y="268" width="540" height="1" fill="#F5F0E6" opacity="0.15"/>
-  <text x="112" y="318" font-family="'Helvetica Neue', Arial, sans-serif" font-size="22" fill="#F5F0E6" opacity="0.65">Strategy · Systems · Execution</text>
-  <text x="112" y="490" font-family="'Helvetica Neue', Arial, sans-serif" font-size="24" fill="#C65D3A" letter-spacing="2" opacity="0.9">kevinclark.ai</text>
-  <circle cx="1100" cy="530" r="120" fill="none" stroke="#C65D3A" stroke-width="1" opacity="0.15"/>
-  <circle cx="1100" cy="530" r="80" fill="none" stroke="#C65D3A" stroke-width="0.5" opacity="0.1"/>
 </svg>
