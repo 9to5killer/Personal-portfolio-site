@@ -9,6 +9,15 @@ const projects = [
     body:   'A production AI agent that observes market conditions, evaluates signals, manages risk, and executes paper trades without human intervention — every hour the market is open.',
     featured: true,
   },
+  {
+    num:    '02',
+    link:   'https://map.kevinclark.ai',
+    title:  'US Data Center Power Map',
+    tags:   ['Astro', 'React', 'Mapbox GL JS', 'Energy Infrastructure'],
+    status: 'Live',
+    body:   'Interactive map of every US data center overlaid with power plant fuel mix, NERC grid zones, and water stress data. Built to visualize the infrastructure dependencies of AI compute at national scale.',
+    featured: true,
+  },
 ];
 
 const total = projects.length;
@@ -40,7 +49,8 @@ function dotClass(status: string) {
   <div class="space-y-4 fade-up delay-1">
     {projects.filter(p => p.featured).map((p) => (
         <a
-        href={`/projects/${p.slug}`}
+        href={p.link ?? `/projects/${p.slug}`}
+        {...(p.link ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
         class="project-card block border border-rule p-8 md:p-10 grid md:grid-cols-2 gap-8 group"
         aria-label={`View ${p.title}`}
       >
@@ -67,7 +77,7 @@ function dotClass(status: string) {
               ))}
             </div>
             <span class="font-mono text-[10px] tracking-[0.14em] text-ink-3 group-hover:text-ink transition-colors shrink-0 ml-4">
-              View details →
+              {p.link ? 'View project →' : 'View details →'}
             </span>
           </div>
         </div>
