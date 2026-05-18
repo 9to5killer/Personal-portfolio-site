@@ -6,15 +6,14 @@
     </pattern>
   </defs>
   <rect width="1200" height="630" fill="url(#grid)"/>
-  <rect x="80" y="160" width="5" height="310" rx="2.5" fill="#C65D3A"/>
-  <text x="112" y="255" font-family="Georgia, serif" font-size="80" font-weight="700" fill="#F5F0E6" letter-spacing="-2">Kevin Clark</text>
-  <rect x="112" y="278" width="480" height="1" fill="#F5F0E6" opacity="0.12"/>
-  <text x="112" y="322" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#F5F0E6" opacity="0.55" letter-spacing="1">Strategy · Systems · Execution</text>
-  <text x="112" y="430" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#C65D3A" letter-spacing="2">kevinclark.ai</text>
-  <g transform="translate(780, 195)">
-    <rect x="0"   y="0"   width="40" height="240" rx="20" fill="#C65D3A" opacity="1"/>
-    <rect x="60"  y="60"  width="40" height="120" rx="20" fill="#C65D3A" opacity="0.75"/>
-    <rect x="120" y="30"  width="40" height="180" rx="20" fill="#C65D3A" opacity="0.55"/>
-    <rect x="180" y="0"   width="40" height="240" rx="20" fill="#C65D3A" opacity="0.35"/>
+  <g transform="translate(80, 175)">
+    <rect x="0"   y="0"   width="36" height="280" rx="18" fill="#C65D3A" opacity="1"/>
+    <rect x="52"  y="70"  width="36" height="140" rx="18" fill="#C65D3A" opacity="0.75"/>
+    <rect x="104" y="35"  width="36" height="210" rx="18" fill="#C65D3A" opacity="0.55"/>
+    <rect x="156" y="0"   width="36" height="280" rx="18" fill="#C65D3A" opacity="0.35"/>
   </g>
+  <text x="280" y="270" font-family="Georgia, serif" font-size="86" font-weight="700" fill="#F5F0E6" letter-spacing="-2">Kevin Clark</text>
+  <rect x="280" y="295" width="500" height="1" fill="#F5F0E6" opacity="0.12"/>
+  <text x="280" y="342" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="#F5F0E6" opacity="0.55" letter-spacing="1">Strategy · Systems · Execution</text>
+  <text x="280" y="450" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="#C65D3A" letter-spacing="2">kevinclark.ai</text>
 </svg>
