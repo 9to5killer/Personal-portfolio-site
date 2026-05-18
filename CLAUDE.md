@@ -11,7 +11,7 @@
 - Live site: kevinclark.ai
 - Stack: Astro, React, Tailwind CSS, Framer Motion, Three.js
 - Deploy: Vercel via GitHub push (auto-deploys in 2-3 min)
-- Repo: github.com/9to5killer/Personal-portfolio-site
+- Repo: github.com/kclark-ai/Personal-portfolio-site
 - Local: /Users/takamiclark/kevinclark-site
 
 ## Deploy Workflow
@@ -52,7 +52,7 @@ git push
 ## Contact
 - Email: kc@kevinclark.ai
 - LinkedIn: linkedin.com/in/kevinfrancisclark
-- GitHub: github.com/9to5killer
+- GitHub: github.com/kclark-ai
 
 ## Pending Work
 - Copy edits throughout
